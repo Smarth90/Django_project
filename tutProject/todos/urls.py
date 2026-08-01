@@ -13,5 +13,6 @@ urlpatterns = [
     path('submitdjango', views.submit_django_form, name = 'submitDjango'),
     path('add/<int:num1>/<int:num2>', views.hello_path, name = 'add'),
     path('redirectthis', views.special_view, name='redirectthis'),
-    path('templating', views.template_ex, name='templating')
+    path('templating', views.template_ex, name='templating'),
+    path('todos', views.Todos_view, name='todos'),
 ]
