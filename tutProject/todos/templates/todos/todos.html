@@ -142,7 +142,7 @@
             {% for todo in todos %}
                 <li class="todo-card">
                     <h2>{{ todo.title }}</h2>
-                    <p>{{ todo.description }}</p>
+                    <p>{{ todo.description }} is owned by ({{todo.owner.name}})</p>
 
                     <p class="status {% if todo.done %}status-complete{% else %}status-pending{% endif %}">
                         {% if todo.done %}

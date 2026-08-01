@@ -1,7 +1,7 @@
 from django.http import HttpResponse, HttpResponseNotAllowed
-from django.shortcuts import render, redirect
+from django.shortcuts import get_object_or_404, render, redirect
 from .forms import personForms, Todo_form
-from .models import Todo
+from .models import Todo, Person
 
 
 # Create your views here.
@@ -55,3 +55,18 @@ def Todos_view(request):
     todos = Todo.objects.all()
     return render(request, 'todos/todos.html', {'todos': todos, 'form': form})
     
+def person_details(request, person_id):
+    person = get_object_or_404(Person, id=person_id)
+    todos = person.todos.all()
+    return render(request, 'todos/person_details.html', {'person': person, 'todos': todos})
+
+def delete_todo(request,todo_id):
+    todo = Todo.objects.filter(id = todo_id).first()
+    todo.delete()
+    return HttpResponse(f"Todo with id {todo_id} is deleted!")
+
+def toggle_todo_done(request,todo_id):
+    todo = Todo.objects.filter(id = todo_id).first()
+    todo.done = not todo.done
+    todo.save()
+    return redirect("todos")

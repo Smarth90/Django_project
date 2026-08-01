@@ -15,4 +15,7 @@ urlpatterns = [
     path('redirectthis', views.special_view, name='redirectthis'),
     path('templating', views.template_ex, name='templating'),
     path('todos', views.Todos_view, name='todos'),
+    path('person/<int:person_id>', views.person_details, name='person_details'),
+    path('delete/<int:todo_id>', views.delete_todo, name='delete'),
+    path('toggle/<int:todo_id>', views.toggle_todo_done, name='toggle'),
 ]
