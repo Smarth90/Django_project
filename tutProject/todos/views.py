@@ -1,7 +1,10 @@
+from django.contrib import messages
 from django.http import HttpResponse, HttpResponseNotAllowed
-from django.shortcuts import get_object_or_404, render, redirect
-from .forms import personForms, Todo_form
-from .models import Todo, Person
+from django.shortcuts import get_object_or_404, redirect, render
+from django.views.decorators.http import require_POST
+
+from .forms import TodoForm, personForms
+from .models import Person, Todo
 
 
 # Create your views here.
@@ -45,28 +48,33 @@ def template_ex(request):
     return render(request, "todos/template_example.html",context)
 
 def Todos_view(request):
-    form = Todo_form()
+    form = TodoForm()
     if request.method == 'POST':
-        form = Todo_form(request.POST)
+        form = TodoForm(request.POST)
         if form.is_valid():
             form.save()
+            messages.success(request, "Todo added successfully.")
             return redirect('todos')
 
-    todos = Todo.objects.all()
+    todos = Todo.objects.select_related('owner').order_by('done', 'deadline', '-id')
     return render(request, 'todos/todos.html', {'todos': todos, 'form': form})
     
 def person_details(request, person_id):
     person = get_object_or_404(Person, id=person_id)
-    todos = person.todos.all()
+    todos = person.todos.order_by('done', 'deadline', '-id')
     return render(request, 'todos/person_details.html', {'person': person, 'todos': todos})
 
-def delete_todo(request,todo_id):
-    todo = Todo.objects.filter(id = todo_id).first()
+@require_POST
+def delete_todo(request, todo_id):
+    todo = get_object_or_404(Todo, id=todo_id)
     todo.delete()
-    return HttpResponse(f"Todo with id {todo_id} is deleted!")
+    messages.success(request, "Todo deleted.")
+    return redirect('todos')
 
-def toggle_todo_done(request,todo_id):
-    todo = Todo.objects.filter(id = todo_id).first()
+@require_POST
+def toggle_todo_done(request, todo_id):
+    todo = get_object_or_404(Todo, id=todo_id)
     todo.done = not todo.done
-    todo.save()
-    return redirect("todos")
+    todo.save(update_fields=['done'])
+    messages.success(request, "Todo status updated.")
+    return redirect('todos')

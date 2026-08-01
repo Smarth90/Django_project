@@ -1,0 +1,10 @@
+# Python and Django generated files
+__pycache__/
+*.py[cod]
+*.sqlite3
+
+# Local tooling and collected assets
+.venv/
+.ruff_cache/
+staticfiles/
+debug.log

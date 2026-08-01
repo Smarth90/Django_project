@@ -8,3 +8,8 @@ wheels/
 
 # Virtual environments
 .venv
+
+# Local Django data and logs
+*.sqlite3
+debug.log
+staticfiles/

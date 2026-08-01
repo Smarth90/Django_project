@@ -1,7 +1,6 @@
 from django.urls import path
+
 from . import views
-
-
 
 urlpatterns = [
     path('hello', views.hello_world_view, name = 'hello_world_view' ),
@@ -14,8 +13,8 @@ urlpatterns = [
     path('add/<int:num1>/<int:num2>', views.hello_path, name = 'add'),
     path('redirectthis', views.special_view, name='redirectthis'),
     path('templating', views.template_ex, name='templating'),
-    path('todos', views.Todos_view, name='todos'),
-    path('person/<int:person_id>', views.person_details, name='person_details'),
-    path('delete/<int:todo_id>', views.delete_todo, name='delete'),
-    path('toggle/<int:todo_id>', views.toggle_todo_done, name='toggle'),
+    path('todos/', views.Todos_view, name='todos'),
+    path('people/<int:person_id>/', views.person_details, name='person_details'),
+    path('todos/<int:todo_id>/delete/', views.delete_todo, name='delete'),
+    path('todos/<int:todo_id>/toggle/', views.toggle_todo_done, name='toggle'),
 ]

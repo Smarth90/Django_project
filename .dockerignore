@@ -1,0 +1,8 @@
+.git
+.venv
+.ruff_cache
+**/__pycache__
+*.py[cod]
+*.sqlite3
+debug.log
+data
